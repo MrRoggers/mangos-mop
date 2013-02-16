@@ -132,6 +132,9 @@ void WorldSession::SendPacket(WorldPacket const* packet)
     if (!m_Socket)
         return;
 
+	if (packet->GetOpcode() >= NUM_MSG_TYPES && packet->GetOpcode() != MSG_TRANSFER_INITIATE)
+        return;
+
     if (opcodeTable[packet->GetOpcode()].status == STATUS_UNHANDLED)
     {
         sLog.outError("SESSION: tried to send an unhandled opcode 0x%.4X", packet->GetOpcode());
